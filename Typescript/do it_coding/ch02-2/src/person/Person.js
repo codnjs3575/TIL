@@ -12,3 +12,4 @@ class Person {
 exports.default = Person;
 const makePerson = (name, age = (0, makeRandomNumber_1.makeRandomNumber)()) => ({ name, age });
 exports.makePerson = makePerson;
+
