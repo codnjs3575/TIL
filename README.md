@@ -14,22 +14,20 @@
 | Pandas       |      |
 
 ---
+### - Typescript
+
+
+### - Javascript
+
+
 
 ### - Git / Github
-
-	- 
-	- 
-
-
-
 
 
 ### - Python
 
 
-
 ### - Numpy
-
 
 
 ### - Pandas
