@@ -285,6 +285,8 @@
     $ul.appendCild($li);
   });
   document.body.appendChild($ul);
+  ```
+  
   
 
 ### 2. 접근 권한 제어(정보 은닉)
