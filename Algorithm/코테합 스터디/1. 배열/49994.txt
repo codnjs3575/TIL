@@ -1,0 +1,20 @@
+1. 중복되는 길을 체크해야 함
+  -> set 처리하기
+
+2. 좌표를 벗어나면, 커맨드를 무시함. => 함수 isMovable 
+  -> (x = 5, y = 5) 로 잡고, 
+      x나 y가 0 이하가 되거나, x나 y가 11 이상이 되면 커맨드 무시
+
+dirs = ULURRDLLU
+dir = U, L, U, R, R, D, L, L, U
+
+dirs에서 dir를 하나씩 돌면서 
+  1. 움직임 => updateLocation(dir, 현재 x 좌표, 현재 y 좌표)
+  2. 움직인 이후의 결과를 받아옴 => nx, ny = updateLocation()
+  3. 움직인 이후의 좌표가 알맞는 좌표인지 확인함 => isMovable(nx, ny)
+  3. 알맞는 좌표라면 방문한 좌표를 저장함 (Set 형태로 저장)
+    정방향 좌표 : x, y -> nx, ny
+    역방향 좌표 : nx, ny -> x, y
+  4. Set 형태로 저장한 방문기록의 길이 / 2를 반환함
+  
+  
