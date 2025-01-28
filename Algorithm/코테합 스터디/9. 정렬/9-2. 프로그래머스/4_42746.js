@@ -5,6 +5,7 @@
 //  ㄴ 시간복잡도? 조합의 경우를 두 개씩 비교하여 하나만 선택하기에 logn
 //              이를 n개에 한해서 구하기때문에 n * logn
 
+// 42746. 가장 큰 수
 function solution(numbers) {
   function compare(a, b) {
     const c1 = String(a) + b

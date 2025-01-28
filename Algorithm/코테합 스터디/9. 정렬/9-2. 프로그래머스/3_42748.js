@@ -1,3 +1,4 @@
+// 42748. K번째 수
 function solution(array, commands) {
   let result = []
   commands.map(([i, j, k]) => {

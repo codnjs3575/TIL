@@ -10,6 +10,7 @@
 // ② 원소 개수를 기준으로 오름차순 정렬하기 -> sortedArr
 // ③ 정렬한 배열들을 돌면서 없는 숫자만 answer 배열에 push하기
 
+// 62050. 튜플
 function solution(s) {
   const arr = s.slice(2, -2).split('},{') // ①
   const sortedArr = arr.sort((a, b) => a.length - b.length) // ②
