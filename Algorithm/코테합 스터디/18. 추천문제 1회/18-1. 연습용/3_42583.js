@@ -18,61 +18,40 @@ Queue.prototype.isEmpty = function () {
 Queue.prototype.head = function () {
   return this.arr[this.front]
 }
-Queue.prototype.print = function () {
-  console.log(this.arr.slice(this.front, this.rear).join(', '))
-}
 
 function solution(bridge_length, bridge_weight, truck_weights) {
-  let bridgeQueue = new Queue()
-  let truckQueue = new Queue()
-  truck_weights.map((weight) => truckQueue.push(weight))
-  if (bridge_length > truckQueue.length) {
-    for (let i = 0; i < bridge_length; i++) bridgeQueue.push(0)
-  }
+  const bridgeQueue = new Queue() // 다리에 있는 트럭 Queue
+  for (let i = 0; i < bridge_length; i++) bridgeQueue.push(0) // 다리 Queue init
 
-  // console.log(truckQueue) // [7, 4, 5, 6]
+  const truckQueue = new Queue() // 대기 트럭 Queue
+  truck_weights.map((truck) => truckQueue.push(truck)) // 대기 트럭 Queue init
 
   let resultTime = 0
-  // for (let i = 0; i < 8; i++) {
+
+  // 두 개의 Queue 중 하나라도 값이 있을 경우 => 아직 움직여야 함
   while (!bridgeQueue.isEmpty() || !truckQueue.isEmpty()) {
     resultTime++
-    // console.log()
-    // console.log(
-    //   `----------------------- ${resultTime}초 (${bridge_weight}) -----------------------`
-    // )
 
-    // 1. 대기하고 있는 트럭이 없거나 다리가 꽉 차있는 경우 -> 다리에서 pop만 함.
+    // 1. 대기하고 있는 트럭이 없거나 다리가 꽉 차있는 경우 -> 다리에서 pop만 함
     if (truckQueue.isEmpty() || bridgeQueue.length === bridge_length) {
-      // if (bridgeQueue.length === bridge_length) {
       let truck = bridgeQueue.pop()
-      bridge_weight += truck
-      // console.log(`다리에서 트럭 ${truck}을 삭제함`)
+      bridge_weight += truck // 트럭이 다리를 지나감
     }
 
-    // 2. 다리에 자리가 있는 경우 -> 무게를 보고 트럭 or 빈 자리(0)를 삽입
-    // else if (bridgeQueue.length < bridge_length) {
-    // else {
-    // console.log('다리에 자리가 있거나, 대기하고 있는 트럭이 있는 경우')
-    // console.log(truckQueue.head(), '대기 중')
-    // 경우 1-1. 무게를 초과하지 않은 경우
-    if (bridge_weight - truckQueue.head() >= 0) {
-      let truck = truckQueue.pop()
-      bridge_weight -= truck
-      bridgeQueue.push(truck)
+    // 2. 다리에 자리가 있는 경우 -> 무게에 따라 삽입값(트럭 or 빈 자리(0)) 결정
+    // 2-1. 무게를 초과하지 않은 경우
+    if (!truckQueue.isEmpty()) {
+      if (bridge_weight - truckQueue.head() >= 0) {
+        let truck = truckQueue.pop()
+        bridge_weight -= truck // 트럭이 다리에 올라감
+        bridgeQueue.push(truck) // 다리 Queue에 트럭 삽입
+      }
+
+      // 2-2. 무게를 초과한 경우
+      else bridgeQueue.push(0) // 빈 자리를 올리고 한 턴 넘김
     }
-
-    // 경우 1-2. 무게를 초과한 경우
-    // else bridgeQueue.push(0)
-    else if (!truckQueue.isEmpty()) bridgeQueue.push(0)
-
-    // }
-
-    // console.log()
-    // truckQueue.print()
-    // bridgeQueue.print()
   }
-  // console.log()
-  console.log(resultTime)
+  return resultTime
 }
 
 // solution(2, 10, [7, 4, 5, 6]) // 8
