@@ -14,35 +14,46 @@
 // [1924]) 1 저장 -> 9 저장 -> [2] 19 < 92 큼 (92 저장) -> [4] 92 < 94 큼 (94 저장)
 // [9124]) 9 저장 -> 1 저장 -> [2]
 
-// n(10) - k(4) = 6개
-// [4177252841])
-// 417725 -> [2]
-// 417725 -> [5]
-// 417725 -> [2]
-// 417725 -> [8]
-// 417728 -> [4]
+// [4177252841], n(10) - k(4) = 6개
+// [4] 4 저장                 ∴ [4] k = 4
+// [1] 1 < 4 -> 1 저장        ∴ [4, 1] k = 4
+// [7] 7 > 1 -> 1 제거 k = 3
+//     7 > 4 -> 4 제거 k = 2  ∴ [7]  k = 2
+// [7] 7 = 7 -> 7 저장        ∴ [7, 7] k = 2
+// [2] 2 < 7 -> 2 저장        ∴ [7, 7, 2] k = 2
+// [5] 5 > 2 -> 2 제거 k = 1  ∴ [7, 7] k = 1
+//     5 < 7 -> 5 저장        ∴ [7, 7, 5] k = 1
+// [2] 2 < 5 -> 2 저장        ∴ [7, 7, 5, 2] k = 1
+// [8] 8 > 2 -> 2 제거 k = 0  ∴ [7, 7, 5] k = 0
+//     8 > 5 -> 8 저장 k = 0  ∴ [7, 7, 5, 8] k = 0
+// [4] 4 저장                 ∴ [7, 7, 5, 8, 4]
+// [1] 1 저장                 ∴ [7, 7, 5, 8, 4, 1]
+//                           ∴ 775841
 
-// 가장 맨 앞, 가장 맨 뒤 숫자만 제거할 수 있음.
+// pop 조건 : stack이 비어있지않고, k가 0 이상이며(제거 가능), stack의 마지막 값이 현재 값보다 작을 떄
 
 function solution(number, k) {
-  const n = number.split('').length
-  const answer = []
-  let maxNum = ''
+  // 0. stack 사용하여 맨 마지막 값부터 삭제(후입선출)
+  const stack = []
 
-  number.split('').map((num) => {
-    if (answer.length < n - k) {
-      answer.push(num)
-      maxNum += num
-      return
+  // 1. 반복문을 통해 push&pop 진행
+  for (num of [...number.split('')]) {
+    // 1-1. stack과 비교 후 pop
+    while (stack.length && k > 0 && stack[stack.length - 1] < num) {
+      stack.pop()
+      k--
     }
-    // 비교 후 큰 수로 저장
-    answer.slice(1) //
-    console.log(num)
-  })
 
-  console.log(answer, maxNum)
+    // 1-2. 현재 값 push하기
+    stack.push(num)
+  }
+
+  // 2. k가 남아있다면, 남아있는 만큼 제거 후 앞 부분만 추출
+  //    pop 과정에서 앞 부분에 큰 수를 남겨놓았기에, 뒤에서부터 삭제하는 것이 큰 수로 만들기 좋음
+  if (k > 0) stack.splice(stack.length - k, k)
+  return stack.join('')
 }
 
-solution('1924', 2) // 94
+// solution('1924', 2) // 94
 // solution('1231234', 3) // 3234
-// console.log(solution('4177252841', 4)) // 775841
+solution('4177252841', 4) // 775841
